@@ -3,7 +3,7 @@ const MongoClient = require('mongodb').MongoClient;
 const objectId = require('mongodb').ObjectId;
 require('dotenv').config();
 const admin = require("firebase-admin");
-const serviceAccount = require("./serviceaccount.json");
+const serviceAccount = require(__dirname+"/serviceaccount.json");
 
 const app=expressSetup.setup(5000 || process.env.POST)
 
