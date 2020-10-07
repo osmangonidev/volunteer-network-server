@@ -5,7 +5,7 @@ require('dotenv').config();
 const admin = require("firebase-admin");
 const serviceAccount = require("./serviceaccount.json");
 
-const app=expressSetup.setup(5000)
+const app=expressSetup.setup(5000 || process.env.POST)
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
