@@ -3,14 +3,14 @@ const MongoClient = require('mongodb').MongoClient;
 const objectId = require('mongodb').ObjectId;
 require('dotenv').config();
 const admin = require("firebase-admin");
-const serviceAccount = require(__dirname+"/serviceaccount.json");
+// const serviceAccount = require(__dirname+"/serviceaccount.json");
 
 const app=expressSetup.setup(5000 || process.env.POST)
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://volunteer-network-e5d98.firebaseio.com"
-});
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+//   databaseURL: "https://volunteer-network-e5d98.firebaseio.com"
+// });
 
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.koqo3.mongodb.net/volunteer-network?retryWrites=true&w=majority`;
@@ -27,14 +27,14 @@ client.connect(err => {
   })
 
   app.get('/all-registered-events',(req,res)=>{
-    const token=req.headers.authorization;
+    // const token=req.headers.authorization;
 
-    if(token && token.startsWith('Bearer')){
-      const idToken=token.split(' ')[1];
+    // if(token && token.startsWith('Bearer')){
+    //   const idToken=token.split(' ')[1];
      
-      admin.auth().verifyIdToken(idToken)
-      .then(function(decodedToken) {
-        let uid = decodedToken.uid;
+    //   admin.auth().verifyIdToken(idToken)
+    //   .then(function(decodedToken) {
+    //     let uid = decodedToken.uid;
         allRegistriedTasksCollection.find({})
         .toArray((error,documents)=>{
           res.send(documents)
@@ -43,27 +43,27 @@ client.connect(err => {
       }).catch(function(error) {
         
       });
-    }
+    // }
   })
 
   app.get('/my-events',(req,res)=>{
-    const token=req.headers.authorization;
+    // const token=req.headers.authorization;
 
-    if(token && token.startsWith('Bearer')){
-      const idToken=token.split(' ')[1];
+    // if(token && token.startsWith('Bearer')){
+    //   const idToken=token.split(' ')[1];
      
-      admin.auth().verifyIdToken(idToken)
-      .then(function(decodedToken) {
-        let uid = decodedToken.uid;
+    //   admin.auth().verifyIdToken(idToken)
+    //   .then(function(decodedToken) {
+    //     let uid = decodedToken.uid;
 
         allRegistriedTasksCollection.find({email:req.query.email})
         .toArray((error,documents)=>{
           res.send(documents)
         })
-      }).catch(function(error) {
+      .catch(function(error) {
         
       });
-    }
+    // }
   
   })
 
