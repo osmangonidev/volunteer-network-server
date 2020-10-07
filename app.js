@@ -40,7 +40,7 @@ client.connect(err => {
           res.send(documents)
           
         })
-      }).catch(function(error) {
+      .catch(function(error) {
         
       });
     // }
