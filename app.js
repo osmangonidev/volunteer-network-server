@@ -1,5 +1,5 @@
 const express = require('express');
-const cors=require('cors');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
 const objectId = require('mongodb').ObjectId;
@@ -9,7 +9,7 @@ const serviceAccount = require(__dirname+"/serviceaccount.json");
 
 
 const app = express();
-// app.use(cors())
+app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
