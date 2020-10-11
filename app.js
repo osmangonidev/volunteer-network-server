@@ -9,7 +9,7 @@ const serviceAccount = require(__dirname+"/serviceaccount.json");
 
 
 const app = express();
-app.use(cors());
+// app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
