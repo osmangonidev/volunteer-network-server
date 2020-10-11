@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/', (req,res)=>{
   res.send('Hello World')
 })
-const uri = `mongodb+srv://mongodbuser:mongodbpassword@cluster0.koqo3.mongodb.net/volunteer-network?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.koqo3.mongodb.net/volunteer-network?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true});
 client.connect(err => {
   const allTasksCollection = client.db("volunteer-network").collection("alltasks");
@@ -42,9 +42,6 @@ client.connect(err => {
         .toArray((error,documents)=>{
           res.send(documents)
         })
-      .catch(function(error) {
-        
-      });
     // }
   
   })
