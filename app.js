@@ -1,15 +1,18 @@
-const express=require('express')
-const cors=require('cors')
-const bodyParser=require('body-parser')
+const express=require('express');
+const cors=require('cors');
+const bodyParser=require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
 const objectId = require('mongodb').ObjectId;
 require('dotenv').config();
 
 const app=express();
+app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
+app.get('/', (req,res)=>{
+  res.send('Hello World')
+})
 const uri = `mongodb+srv://mongodbuser:mongodbpassword@cluster0.koqo3.mongodb.net/volunteer-network?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true});
 client.connect(err => {
@@ -76,5 +79,5 @@ client.connect(err => {
   
 });
 
-const port=5000||process.env.PORT;
-app.listen(port,()=>console.log('app running on port 5000'))
+
+app.listen(process.env.PORT || 5000)
