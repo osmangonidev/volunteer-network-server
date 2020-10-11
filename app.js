@@ -1,19 +1,16 @@
-const expressSetup=require('express-setup'); // This is my own package.It simplifies the basic setup.
+const express=require('express')
+const cors=require('cors')
+const bodyParser=require('body-parser')
 const MongoClient = require('mongodb').MongoClient;
 const objectId = require('mongodb').ObjectId;
 require('dotenv').config();
-const admin = require("firebase-admin");
-// const serviceAccount = require(__dirname+"/serviceaccount.json");
 
-const app=expressSetup.setup(5000 || process.env.POST)
-
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount),
-//   databaseURL: "https://volunteer-network-e5d98.firebaseio.com"
-// });
+const app=express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.koqo3.mongodb.net/volunteer-network?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://mongodbuser:mongodbpassword@cluster0.koqo3.mongodb.net/volunteer-network?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true});
 client.connect(err => {
   const allTasksCollection = client.db("volunteer-network").collection("alltasks");
@@ -27,18 +24,9 @@ client.connect(err => {
   })
 
   app.get('/all-registered-events',(req,res)=>{
-    // const token=req.headers.authorization;
-
-    // if(token && token.startsWith('Bearer')){
-    //   const idToken=token.split(' ')[1];
-     
-    //   admin.auth().verifyIdToken(idToken)
-    //   .then(function(decodedToken) {
-    //     let uid = decodedToken.uid;
         allRegistriedTasksCollection.find({})
         .toArray((error,documents)=>{
           res.send(documents)
-          
         })
       .catch(function(error) {
         
@@ -47,15 +35,6 @@ client.connect(err => {
   })
 
   app.get('/my-events',(req,res)=>{
-    // const token=req.headers.authorization;
-
-    // if(token && token.startsWith('Bearer')){
-    //   const idToken=token.split(' ')[1];
-     
-    //   admin.auth().verifyIdToken(idToken)
-    //   .then(function(decodedToken) {
-    //     let uid = decodedToken.uid;
-
         allRegistriedTasksCollection.find({email:req.query.email})
         .toArray((error,documents)=>{
           res.send(documents)
@@ -96,3 +75,6 @@ client.connect(err => {
     })
   
 });
+
+const port=5000||process.env.PORT;
+app.listen(port,()=>console.log('app running on port 5000'))
